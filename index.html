@@ -188,10 +188,12 @@
   .p-video{
     aspect-ratio:16/9; border-radius:6px; background:var(--bg-raised);
     overflow:hidden; position:relative; display:block; border:1px solid var(--line);
+    cursor:pointer;
   }
+  .p-video iframe{width:100%; height:100%; border:0; display:block;}
   .p-video.placeholder{
     border-style:dashed; display:flex; align-items:center; justify-content:center;
-    text-align:center; padding:24px;
+    text-align:center; padding:24px; cursor:default;
   }
   .p-video img{width:100%; height:100%; object-fit:cover; display:block;}
   .p-video .play-overlay{
@@ -416,10 +418,10 @@
       </div>
     </div>
     <div class="p-media">
-      <a class="p-video" href="https://www.youtube.com/watch?v=_52UlfUWcCk" target="_blank" rel="noopener">
+      <div class="p-video" onclick="playVideo(this, '_52UlfUWcCk')" role="button" tabindex="0" aria-label="Play Curfew gameplay video">
         <img src="https://img.youtube.com/vi/_52UlfUWcCk/hqdefault.jpg" alt="Curfew gameplay video thumbnail">
         <div class="play-overlay"><div class="play-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4L16 10L6 16V4Z" fill="#111114"/></svg></div></div>
-      </a>
+      </div>
       <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('curfew')">Screenshots</button>
     </div>
   </article>
@@ -686,6 +688,16 @@
       });
     }, { threshold: 0.15 });
     projects.forEach(p => io.observe(p));
+  }
+
+  // ---------- INLINE VIDEO PLAYER ----------
+  function playVideo(el, videoId) {
+    el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + videoId +
+      '?autoplay=1&rel=0" title="Gameplay video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    el.onclick = null;
+    el.removeAttribute('role');
+    el.removeAttribute('tabindex');
+    el.style.cursor = 'default';
   }
 
   // ---------- SCREENSHOT LIGHTBOX ----------
