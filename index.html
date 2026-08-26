@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  (function() {
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+  })();
+</script>
 <title>Olle - Game Developer</title>
 <meta name="description" content="Olle - Game Developer. Unreal Engine 5, C++, Blueprint. Based in Stockholm.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,9 +25,21 @@
     --text-dim:#63636b;
     --amber:#c97a1f;
     --teal:#2c8a82;
+    --bg-nav:rgba(238,235,227,.97);
     --font-display:'Fraunces', serif;
     --font-body:'IBM Plex Sans', sans-serif;
     --font-mono:'IBM Plex Mono', monospace;
+  }
+
+  [data-theme="dark"]{
+    --bg:#0a0a0c;
+    --bg-raised:#141417;
+    --line:#28282e;
+    --text:#eeece6;
+    --text-dim:#9a9ca6;
+    --amber:#e3a24c;
+    --teal:#4fada6;
+    --bg-nav:rgba(10,10,12,.94);
   }
 
   *{box-sizing:border-box; margin:0; padding:0;}
@@ -30,6 +50,7 @@
     font-family:var(--font-body);
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
+    transition:background-color .25s ease, color .25s ease;
   }
   a{color:inherit; text-decoration:none;}
   img{max-width:100%; display:block;}
@@ -44,7 +65,7 @@
   /* ---------- NAV ---------- */
   header.nav{
     position:fixed; top:0; left:0; right:0; z-index:50;
-    background:rgba(238,235,227,.97);
+    background:var(--bg-nav);
     border-bottom:1px solid var(--line);
     padding:18px 0;
   }
@@ -57,6 +78,14 @@
     transition:border-color .2s, color .2s;
   }
   .nav-contact:hover{border-color:var(--amber); color:var(--amber);}
+  .nav-right{display:flex; align-items:center; gap:14px;}
+  .theme-toggle{
+    display:flex; align-items:center; justify-content:center;
+    width:34px; height:34px; border-radius:50%;
+    border:1px solid var(--line); background:none; color:var(--text-dim);
+    cursor:pointer; transition:border-color .2s, color .2s;
+  }
+  .theme-toggle:hover{border-color:var(--amber); color:var(--amber);}
 
   /* ---------- HERO ---------- */
   .hero{
@@ -337,7 +366,13 @@
 <header class="nav">
   <div class="wrap">
     <div class="nav-name">Olle Salin</div>
-    <a class="nav-contact" href="#contact">Contact</a>
+    <div class="nav-right">
+      <button type="button" class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <svg id="themeIconSun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        <svg id="themeIconMoon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path></svg>
+      </button>
+      <a class="nav-contact" href="#contact">Contact</a>
+    </div>
   </div>
 </header>
 
@@ -979,6 +1014,29 @@ void ShootAtPlayer()
 </div>
 
 <script>
+  // ---------- DARK MODE TOGGLE ----------
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const sun = document.getElementById('themeIconSun');
+    const moon = document.getElementById('themeIconMoon');
+    if (sun && moon) {
+      sun.style.display = theme === 'dark' ? 'none' : 'block';
+      moon.style.display = theme === 'dark' ? 'block' : 'none';
+    }
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  }
+
+  (function initThemeIcon() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(current);
+  })();
+
   // Simple fade-in on scroll for project sections
   const projects = document.querySelectorAll('.project');
   if ('IntersectionObserver' in window) {
