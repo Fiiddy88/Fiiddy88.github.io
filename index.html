@@ -7,8 +7,7 @@
   (function() {
     var saved = null;
     try { saved = localStorage.getItem('theme'); } catch (e) {}
-    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.setAttribute('data-theme', saved || (prefersDark ? 'dark' : 'light'));
+    document.documentElement.setAttribute('data-theme', saved || 'dark');
   })();
 </script>
 <title>Olle - Game Developer</title>
@@ -102,8 +101,8 @@
     .hero-top{flex-direction:row; align-items:center; gap:36px;}
   }
   .hero-photo{
-    width:clamp(150px, 16vw, 220px); height:clamp(150px, 16vw, 220px); border-radius:50%;
-    object-fit:cover; border:1px solid var(--line);
+    width:clamp(240px, 26vw, 360px); height:clamp(160px, 17vw, 235px); border-radius:50%;
+    object-fit:cover; object-position:center 20%; border:1px solid var(--line);
     flex-shrink:0;
   }
   .eyebrow{
