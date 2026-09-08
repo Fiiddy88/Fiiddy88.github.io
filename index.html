@@ -269,7 +269,7 @@
     border-style:dashed; display:flex; align-items:center; justify-content:center;
     text-align:center; padding:24px; cursor:default;
   }
-  .p-video img{width:100%; height:100%; object-fit:cover; display:block;}
+  .p-video img, .p-video video{width:100%; height:100%; object-fit:cover; display:block;}
   .p-video .play-overlay{
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     background:rgba(0,0,0,.18); transition:background .2s;
@@ -506,7 +506,7 @@ void APuzzleManager::RegisterActivatedObject()
     </div>
     <div class="p-media">
       <div class="p-video">
-        <img src="assets/gifs/the-unseen.gif" alt="The Unseen gameplay clip">
+        <video autoplay loop muted playsinline src="assets/videos/the-unseen.mp4" aria-label="The Unseen gameplay clip"></video>
       </div>
       <a class="btn ghost" href="https://www.youtube.com/watch?v=bF1i5-I1_Aw" target="_blank" rel="noopener">Watch on YouTube</a>
       <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('theUnseen')">Screenshots</button>
@@ -560,7 +560,7 @@ void APuzzleManager::RegisterActivatedObject()
     </div>
     <div class="p-media">
       <div class="p-video">
-        <img src="assets/gifs/curfew.gif" alt="Curfew gameplay clip">
+        <video autoplay loop muted playsinline src="assets/videos/curfew.mp4" aria-label="Curfew gameplay clip"></video>
       </div>
       <a class="btn ghost" href="https://www.youtube.com/watch?v=_52UlfUWcCk" target="_blank" rel="noopener">Watch on YouTube</a>
       <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('curfew')">Screenshots</button>
@@ -668,7 +668,7 @@ void TryStartDash(Vector2 dashDir)
     </div>
     <div class="p-media">
       <div class="p-video">
-        <img src="assets/gifs/uss-calliope.gif" alt="USS-Calliope gameplay clip">
+        <video autoplay loop muted playsinline src="assets/videos/uss-calliope.mp4" aria-label="USS-Calliope gameplay clip"></video>
       </div>
       <a class="btn ghost" href="https://www.youtube.com/watch?v=MlmSVzbXJTQ" target="_blank" rel="noopener">Watch on YouTube</a>
       <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('ussCalliope')">Screenshots</button>
@@ -756,7 +756,7 @@ void ShootAtPlayer()
     </div>
     <div class="p-media">
       <div class="p-video">
-        <img src="assets/gifs/mega-guy.gif" alt="Mega Guy gameplay clip">
+        <video autoplay loop muted playsinline src="assets/videos/mega-guy.mp4" aria-label="Mega Guy gameplay clip"></video>
       </div>
       <a class="btn ghost" href="https://www.youtube.com/watch?v=as2LI4dp2KI" target="_blank" rel="noopener">Watch on YouTube</a>
       <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('megaGuy')">Screenshots</button>
@@ -851,7 +851,7 @@ void ShootAtPlayer()
     </div>
     <div class="p-media">
       <div class="p-video">
-        <img src="assets/gifs/travers.gif" alt="Travers Big Christmas Adventure gameplay clip">
+        <video autoplay loop muted playsinline src="assets/videos/travers.mp4" aria-label="Travers Big Christmas Adventure gameplay clip"></video>
       </div>
       <a class="btn ghost" href="https://www.youtube.com/watch?v=dh2fcWlFV0g" target="_blank" rel="noopener">Watch on YouTube</a>
       <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('travers')">Screenshots</button>
@@ -949,7 +949,7 @@ void ShootAtPlayer()
     </div>
     <div class="p-media">
       <div class="p-video">
-        <img src="assets/gifs/zetaflare.gif" alt="Donalds Zetaflare Adventure gameplay clip">
+        <video autoplay loop muted playsinline src="assets/videos/zetaflare.mp4" aria-label="Donalds Zetaflare Adventure gameplay clip"></video>
       </div>
       <a class="btn ghost" href="https://www.youtube.com/watch?v=UwBst9Rn4Zg" target="_blank" rel="noopener">Watch on YouTube</a>
       <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('zetaflare')">Screenshots</button>
