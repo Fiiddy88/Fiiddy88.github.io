@@ -420,7 +420,8 @@
       <p class="p-blurb">
         A solo project built in <strong>Unity</strong> with <strong>C#</strong>, an endless-runner
         hybrid where a robot auto-walks through an infinite scrolling forest and stops to solve
-        Wordle-style word puzzles at signs along the way. Published as a WebGL build on itch.io.
+        Wordle-style word puzzles at signs along the way. Playable in <strong>English</strong> or
+        <strong>Swedish</strong>.
       </p>
       <div class="p-highlights">
         <div class="p-highlight">
@@ -521,12 +522,11 @@ namespace RobotWordle
       </div>
     </div>
     <div class="p-media">
-      <div class="p-video placeholder">
-        <div class="ph"><b>Add gameplay video / gif</b>Guess and Go<br><!-- Replace this div with a <video> or <img> tag once you have footage --></div>
+      <div class="p-video">
+        <video autoplay loop muted playsinline src="assets/videos/guess-and-go.mp4" aria-label="Guess and Go gameplay clip"></video>
       </div>
       <a class="btn primary" href="https://fiiddy.itch.io/guess-and-go" target="_blank" rel="noopener">Play on itch.io</a>
       <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('guessAndGo')">Screenshots</button>
-      <!-- Add a 'guessAndGo' array to the screenshotSets object in the script below once you have screenshots -->
     </div>
   </article>
 
@@ -1192,6 +1192,12 @@ void ShootAtPlayer()
 
   // ---------- SCREENSHOT LIGHTBOX ----------
   const screenshotSets = {
+    guessAndGo: [
+      'assets/screenshots/guess-and-go/1.jpg',
+      'assets/screenshots/guess-and-go/2.jpg',
+      'assets/screenshots/guess-and-go/3.jpg',
+      'assets/screenshots/guess-and-go/4.jpg'
+    ],
     theUnseen: [
       'assets/screenshots/the-unseen/1.jpg',
       'assets/screenshots/the-unseen/2.jpg',
