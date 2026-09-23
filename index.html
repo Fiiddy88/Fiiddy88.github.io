@@ -450,8 +450,73 @@
           <span class="chevron">&#9656;</span><span class="label">View code</span>
         </button>
         <div class="code-panel">
-          <div class="code-note">Code snippet coming soon.</div>
-          <!-- Replace the note above and add a <div class="code-file">filename</div> + <pre><code>...</code></pre> once a snippet is ready -->
+          <div class="code-note">This is the core Wordle-checking logic. It runs in two passes: first marking exact-position matches as correct, then checking remaining letters against a count of leftover target letters, so a repeated letter in the guess only lights up as many times as it actually appears in the target word.</div>
+          <div class="code-file">WordleLogic.cs</div>
+          <pre><code>using System.Collections.Generic;
+
+namespace RobotWordle
+{
+    public enum LetterState
+    {
+        Empty,
+        Absent,   // gray  - letter not in word
+        Present,  // yellow - letter in word, wrong spot
+        Correct   // green  - letter in word, right spot
+    }
+    
+    public static class WordleLogic
+    {
+        public static LetterState[] Evaluate(string target, string guess)
+        {
+            target = target.ToUpperInvariant();
+            guess = guess.ToUpperInvariant();
+
+            int len = target.Length;
+            var result = new LetterState[len];
+            var remaining = new Dictionary&lt;char, int&gt;();
+
+            // Pass 1: exact matches (green). Track leftover letter counts for pass 2.
+            for (int i = 0; i &lt; len; i++)
+            {
+                if (guess[i] == target[i])
+                {
+                    result[i] = LetterState.Correct;
+                }
+                else
+                {
+                    if (!remaining.ContainsKey(target[i])) remaining[target[i]] = 0;
+                    remaining[target[i]]++;
+                }
+            }
+
+            // Pass 2: present (yellow) vs absent (gray), respecting remaining counts
+            for (int i = 0; i &lt; len; i++)
+            {
+                if (result[i] == LetterState.Correct) continue;
+
+                char c = guess[i];
+                if (remaining.TryGetValue(c, out int count) &amp;&amp; count &gt; 0)
+                {
+                    result[i] = LetterState.Present;
+                    remaining[c] = count - 1;
+                }
+                else
+                {
+                    result[i] = LetterState.Absent;
+                }
+            }
+
+            return result;
+        }
+
+        public static bool IsSolved(LetterState[] states)
+        {
+            foreach (var s in states)
+                if (s != LetterState.Correct) return false;
+            return true;
+        }
+    }
+}</code></pre>
         </div>
       </div>
     </div>
