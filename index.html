@@ -412,10 +412,63 @@
 <section class="projects wrap" id="projects">
   <div class="section-label">Projects</div>
 
-  <!-- PROJECT 1 -->
   <article class="project">
     <div class="p-body">
-      <span class="p-index">01 / 06</span>
+      <span class="p-index">01 / 07</span>
+      <span class="p-status">Solo project</span><span class="p-time">Time: ??</span>
+      <h2 class="p-title">Guess and Go</h2>
+      <p class="p-blurb">
+        A solo project built in <strong>Unity</strong> with <strong>C#</strong>, an endless-runner
+        hybrid where a robot auto-walks through an infinite scrolling forest and stops to solve
+        Wordle-style word puzzles at signs along the way. Published as a WebGL build on itch.io.
+      </p>
+      <div class="p-highlights">
+        <div class="p-highlight">
+          <span class="h-tag">Word Puzzle Logic</span>
+          <p>Built full <strong>Wordle-style guessing logic</strong> that correctly handles
+          duplicate letters, paired with an on-screen QWERTY keyboard for input.</p>
+        </div>
+        <div class="p-highlight">
+          <span class="h-tag">Endless Runner Loop</span>
+          <p>Built an <strong>infinite scrolling background</strong> with the robot auto-walking
+          through it, stopping at signs to trigger puzzles along the way.</p>
+        </div>
+        <div class="p-highlight">
+          <span class="h-tag">Scoring & Lives</span>
+          <p>Implemented a <strong>scoring system scaled by number of tries</strong>, alongside a
+          lives system, HUD, animations, and background music.</p>
+        </div>
+      </div>
+      <div class="p-tags">
+        <span class="p-tag">Unity</span>
+        <span class="p-tag">C#</span>
+        <span class="p-tag">WebGL</span>
+        <span class="p-tag">Solo project</span>
+      </div>
+      <div class="p-code">
+        <button type="button" class="code-toggle" onclick="toggleCode(this)">
+          <span class="chevron">&#9656;</span><span class="label">View code</span>
+        </button>
+        <div class="code-panel">
+          <div class="code-note">Code snippet coming soon.</div>
+          <!-- Replace the note above and add a <div class="code-file">filename</div> + <pre><code>...</code></pre> once a snippet is ready -->
+        </div>
+      </div>
+    </div>
+    <div class="p-media">
+      <div class="p-video placeholder">
+        <div class="ph"><b>Add gameplay video / gif</b>Guess and Go<br><!-- Replace this div with a <video> or <img> tag once you have footage --></div>
+      </div>
+      <a class="btn primary" href="https://fiiddy.itch.io/guess-and-go" target="_blank" rel="noopener">Play on itch.io</a>
+      <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('guessAndGo')">Screenshots</button>
+      <!-- Add a 'guessAndGo' array to the screenshotSets object in the script below once you have screenshots -->
+    </div>
+  </article>
+
+  <!-- PROJECT 1 -->
+  <article class="project flip">
+    <div class="p-body">
+      <span class="p-index">02 / 07</span>
       <span class="p-status">Group project · Coursework</span><span class="p-time">Time: 5 weeks</span>
       <h2 class="p-title">The Unseen</h2>
       <p class="p-blurb">
@@ -515,9 +568,9 @@ void APuzzleManager::RegisterActivatedObject()
   </article>
 
   <!-- PROJECT 2 -->
-  <article class="project flip">
+  <article class="project">
     <div class="p-body">
-      <span class="p-index">02 / 06</span>
+      <span class="p-index">03 / 07</span>
       <span class="p-status">Coursework</span><span class="p-time">Time: 2 weeks</span>
       <h2 class="p-title">Curfew</h2>
       <p class="p-blurb">
@@ -568,9 +621,9 @@ void APuzzleManager::RegisterActivatedObject()
   </article>
 
   <!-- PROJECT 3 -->
-  <article class="project">
+  <article class="project flip">
     <div class="p-body">
-      <span class="p-index">03 / 06</span>
+      <span class="p-index">04 / 07</span>
       <span class="p-status">Group project · Coursework</span><span class="p-time">Time: 5 weeks</span>
       <h2 class="p-title">USS-Calliope</h2>
       <p class="p-blurb">
@@ -676,9 +729,9 @@ void TryStartDash(Vector2 dashDir)
   </article>
 
   <!-- PROJECT 4 -->
-  <article class="project flip">
+  <article class="project">
     <div class="p-body">
-      <span class="p-index">04 / 06</span>
+      <span class="p-index">05 / 07</span>
       <span class="p-status">Solo project</span><span class="p-time">Time: 2 weeks</span>
       <h2 class="p-title">Mega Guy</h2>
       <p class="p-blurb">
@@ -764,9 +817,9 @@ void ShootAtPlayer()
   </article>
 
   <!-- PROJECT 5 -->
-  <article class="project">
+  <article class="project flip">
     <div class="p-body">
-      <span class="p-index">05 / 06</span>
+      <span class="p-index">06 / 07</span>
       <span class="p-status">Solo project</span><span class="p-time">Time: 3 weeks</span>
       <h2 class="p-title">Travers Big Christmas Adventure</h2>
       <p class="p-blurb">
@@ -859,9 +912,9 @@ void ShootAtPlayer()
   </article>
 
   <!-- PROJECT 6 -->
-  <article class="project flip">
+  <article class="project">
     <div class="p-body">
-      <span class="p-index">06 / 06</span>
+      <span class="p-index">07 / 07</span>
       <span class="p-status">Coursework</span><span class="p-time">Time: 2 weeks</span>
       <h2 class="p-title">Donalds Zetaflare Adventure</h2>
       <p class="p-blurb">
@@ -955,6 +1008,8 @@ void ShootAtPlayer()
       <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('zetaflare')">Screenshots</button>
     </div>
   </article>
+
+
 
 </section>
 
