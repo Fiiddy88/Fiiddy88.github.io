@@ -419,7 +419,7 @@
 
   <article class="project">
     <div class="p-body">
-      <span class="p-index">01 / 07</span>
+      <span class="p-index">01 / 08</span>
       <span class="p-status">Solo project</span><span class="p-time">Time: 4 weeks (ongoing)</span>
       <h2 class="p-title">Guess and Go</h2>
       <p class="p-blurb">
@@ -535,10 +535,159 @@ namespace RobotWordle
     </div>
   </article>
 
-  <!-- PROJECT 1 -->
+  <!-- PROJECT ELECTRICAL SYSTEM -->
   <article class="project flip">
     <div class="p-body">
-      <span class="p-index">02 / 07</span>
+      <span class="p-index">02 / 08</span>
+      <span class="p-status">Group project · Client work</span><span class="p-time">Time: 6 weeks</span>
+      <h2 class="p-title">Electrical System</h2>
+      <p class="p-blurb">
+        A group project (with one other programmer) building a modular <strong>electrical system
+        plugin</strong> in <strong>Unreal Engine 5</strong> with C++ for an undisclosed studio, so the
+        specifics of the work stay confidential. Power propagates between connected objects and
+        rooms through a reusable node-and-connection graph.
+      </p>
+      <div class="p-highlights">
+        <div class="p-highlight">
+          <span class="h-tag">Graph & Propagation</span>
+          <p>Built the <strong>ElectricalGraph</strong> and <strong>ElectricalConnection</strong>
+          systems that track how power propagates between connected objects and rooms.</p>
+        </div>
+        <div class="p-highlight">
+          <span class="h-tag">Reusable Components</span>
+          <p>Built <strong>ElectricalRoomNode</strong>, <strong>ElectricityNodeComponent</strong>,
+          and <strong>ElectricalConductiveComponent</strong> classes so any object can plug into the
+          system without separate per-object logic.</p>
+        </div>
+        <div class="p-highlight">
+          <span class="h-tag">Registry Subsystem</span>
+          <p>Contributed fixes and improvements to the <strong>ElectricalRegistrySubsystem</strong>,
+          which registers and manages electrical components across a level.</p>
+        </div>
+        <div class="p-highlight">
+          <span class="h-tag">Demo Levels</span>
+          <p>Built and maintained <strong>demo levels</strong> to showcase the system, both to the
+          team and to the studio it was built for.</p>
+        </div>
+      </div>
+      <div class="p-tags">
+        <span class="p-tag">Unreal Engine 5</span>
+        <span class="p-tag">C++</span>
+        <span class="p-tag">Team project</span>
+      </div>
+      <div class="p-code">
+        <button type="button" class="code-toggle" onclick="toggleCode(this)">
+          <span class="chevron">&#9656;</span><span class="label">View code</span>
+        </button>
+        <div class="code-panel">
+          <div class="code-note">This is the electrical graph's interface. <strong>PropagatePowerFromSources()</strong> finds every configured power source and calls <strong>PropagatePower()</strong> on each one, which powers that node and every node directly connected to it. <strong>RecalculatePower()</strong> clears the existing power state first, so recalculating never leaves stale power behind after a connection changes.</div>
+          <div class="code-file">ElectricalGraph.h</div>
+          <pre><code>#pragma once
+
+#include "CoreMinimal.h"
+#include "UObject/Object.h"
+#include "Structs/ElectricalConnection.h"
+#include "ElectricalGraph.generated.h"
+
+// Stores the connections that make up the electrical network.
+//
+// The graph keeps track of:
+// - Which room roots exist in the electrical system
+// - Which electrical nodes are connected to each other
+//
+// The graph itself does not decide how power flows yet.
+// It acts as the data structure that describes the electrical network.
+UCLASS()
+class ELECTRICALPROPAGATION_API UElectricalGraph : public UObject
+{
+	GENERATED_BODY()
+
+public:
+
+	// Adds a room root to the electrical graph.
+	// Room roots represent the main electrical entry point for a room
+	void AddRoomRoot(AActor* RoomRoot);
+
+	// Removes a room root from the electrical graph.
+	// Called when a room is destroyed or leaves the level
+	void RemoveRoomRoot(AActor* RoomRoot);
+
+	void AddNode (UElectricityNodeComponent* Node);
+	void RemoveNode (UElectricityNodeComponent* Node);
+
+	UFUNCTION()
+	void HandleNodePowerChanged(bool bNewPowered);
+
+	// Creates a connection between two electrical nodes
+	// The connection is stored in the graph so the electrical system knows that electricity is allowed to travel between these nodes
+	UFUNCTION(BlueprintCallable, Category="Electrical")
+	void AddConnection(UElectricityNodeComponent* NodeA, UElectricityNodeComponent* NodeB);
+
+	// Returns all electrical connections currently stored in the graph
+	UFUNCTION(BlueprintPure, Category="Electrical")
+	TArray&lt;FElectricalConnection&gt; GetConnections() const;
+
+	// Returns all electrical nodes that are configured as power sources
+	UFUNCTION(BlueprintPure, Category="Electrical")
+	TArray&lt;UElectricityNodeComponent*&gt; GetPowerSources() const;
+
+	// Finds all configured power sources and propagates power from them
+	UFUNCTION(BlueprintCallable, Category="Electrical")
+	void PropagatePowerFromSources();
+
+	// Recalculates the power state of the electrical network by clearing
+	// existing power and then propagating from active sources
+	UFUNCTION(BlueprintCallable, Category="Electrical")
+	void RecalculatePower();
+
+	// Prints the current power state of every electrical node in the graph
+	UFUNCTION(BlueprintCallable, Category="Electrical|Debug")
+	void DebugPrintPowerStates() const;
+
+	// Returns all room roots currently registered with the graph
+	const TArray&lt;TObjectPtr&lt;AActor&gt;&gt;&amp; GetRoomRoots() const;
+
+private:
+
+	// All room roots currently registered with the electrical graph
+	// Each room root represents an electrical room in the level
+	UPROPERTY()
+	TArray&lt;TObjectPtr&lt;AActor&gt;&gt; RoomRoots;
+
+	// All connections between electrical nodes.
+	// Each FElectricalConnection stores two nodes that are connected to each other
+	UPROPERTY()
+	TArray&lt;FElectricalConnection&gt; Connections;
+
+	UPROPERTY()
+	TArray&lt;TObjectPtr&lt;UElectricityNodeComponent&gt;&gt; RegisteredNodes;
+
+	UPROPERTY()
+	bool bIsRecalculating = false;
+
+	// Returns all electrical nodes directly connected to the given node
+    UFUNCTION(BlueprintPure, Category="Electrical")
+    TArray&lt;UElectricityNodeComponent*&gt; GetConnectedNodes(UElectricityNodeComponent* Node) const;
+
+	// Powers the given node and all nodes directly connected to it.
+	UFUNCTION(BlueprintCallable, Category="Electrical")
+	void PropagatePower(UElectricityNodeComponent* StartNode);
+};</code></pre>
+        </div>
+      </div>
+    </div>
+    <div class="p-media">
+      <div class="p-video">
+        <video autoplay loop muted playsinline src="assets/videos/electrical-system.mp4" aria-label="Electrical System demo clip"></video>
+      </div>
+      <button type="button" class="btn ghost screenshots-btn" onclick="openScreenshots('electricalSystem')">Screenshots</button>
+    </div>
+  </article>
+
+  <!-- PROJECT 1 -->
+  <article class="project">
+    <div class="p-body">
+      <span class="p-index">03 / 08</span>
       <span class="p-status">Group project · Coursework</span><span class="p-time">Time: 5 weeks</span>
       <h2 class="p-title">The Unseen</h2>
       <p class="p-blurb">
@@ -638,9 +787,9 @@ void APuzzleManager::RegisterActivatedObject()
   </article>
 
   <!-- PROJECT 2 -->
-  <article class="project">
+  <article class="project flip">
     <div class="p-body">
-      <span class="p-index">03 / 07</span>
+      <span class="p-index">04 / 08</span>
       <span class="p-status">Coursework</span><span class="p-time">Time: 2 weeks</span>
       <h2 class="p-title">Curfew</h2>
       <p class="p-blurb">
@@ -691,9 +840,9 @@ void APuzzleManager::RegisterActivatedObject()
   </article>
 
   <!-- PROJECT 3 -->
-  <article class="project flip">
+  <article class="project">
     <div class="p-body">
-      <span class="p-index">04 / 07</span>
+      <span class="p-index">05 / 08</span>
       <span class="p-status">Group project · Coursework</span><span class="p-time">Time: 5 weeks</span>
       <h2 class="p-title">USS-Calliope</h2>
       <p class="p-blurb">
@@ -799,9 +948,9 @@ void TryStartDash(Vector2 dashDir)
   </article>
 
   <!-- PROJECT 4 -->
-  <article class="project">
+  <article class="project flip">
     <div class="p-body">
-      <span class="p-index">05 / 07</span>
+      <span class="p-index">06 / 08</span>
       <span class="p-status">Solo project</span><span class="p-time">Time: 2 weeks</span>
       <h2 class="p-title">Mega Guy</h2>
       <p class="p-blurb">
@@ -887,9 +1036,9 @@ void ShootAtPlayer()
   </article>
 
   <!-- PROJECT 5 -->
-  <article class="project flip">
+  <article class="project">
     <div class="p-body">
-      <span class="p-index">06 / 07</span>
+      <span class="p-index">07 / 08</span>
       <span class="p-status">Solo project</span><span class="p-time">Time: 3 weeks</span>
       <h2 class="p-title">Travers Big Christmas Adventure</h2>
       <p class="p-blurb">
@@ -982,9 +1131,9 @@ void ShootAtPlayer()
   </article>
 
   <!-- PROJECT 6 -->
-  <article class="project">
+  <article class="project flip">
     <div class="p-body">
-      <span class="p-index">07 / 07</span>
+      <span class="p-index">08 / 08</span>
       <span class="p-status">Coursework</span><span class="p-time">Time: 2 weeks</span>
       <h2 class="p-title">Donalds Zetaflare Adventure</h2>
       <p class="p-blurb">
@@ -1225,6 +1374,12 @@ void ShootAtPlayer()
       'assets/screenshots/guess-and-go/2.jpg',
       'assets/screenshots/guess-and-go/3.jpg',
       'assets/screenshots/guess-and-go/4.jpg'
+    ],
+    electricalSystem: [
+      'assets/screenshots/electrical-system/1.jpg',
+      'assets/screenshots/electrical-system/2.jpg',
+      'assets/screenshots/electrical-system/3.jpg',
+      'assets/screenshots/electrical-system/4.jpg'
     ],
     theUnseen: [
       'assets/screenshots/the-unseen/1.jpg',
